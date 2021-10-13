@@ -1,9 +1,16 @@
+import React from "react";
+import { Route, Switch, Redirect } from "react-router-dom";
+
+import Card from "./Card";
+import AddCard from "./AddCard";
+
 function App() {
   return (
-    <div className="App">
-      Hello World!
-      <div></div>
-    </div>
+    <Switch>
+      <Route path="/card" component={Card} />
+      <Route exact path="/" component={AddCard} />
+      <Redirect to="/" />
+    </Switch>
   );
 }
 
