@@ -1,24 +1,33 @@
 import React from "react";
+import PropTypes from "prop-types";
 
-const TextField = ({ onChange, type, name, label, value }) => {
-  const getInputClasses = () => `form-control ${false ? "is-invalid" : ""}`;
+const TextField = ({ onChange, type, name, label, value, error }) => {
+  const getInputClasses = () => `form-control ${error ? "is-invalid" : ""}`;
   return (
     <div className="mb-4">
       <label htmlFor={label}>{label}</label>
       <div className="form-group has-content">
         <input
-          type="text"
-          id="name"
-          name="name"
+          type={type}
+          id={name}
+          name={name}
+          value={value}
+          onChange={onChange}
           className={getInputClasses()}
         />
-        <div className="invalid-feedback">Поле "Имя" должно быть заполнено</div>
+        {error && <div className="invalid-feedback">{error}</div>}
       </div>
-      <button type="submit" className="btn btn-primary">
-        Создать
-      </button>
     </div>
   );
+};
+
+TextField.propTypes = {
+  onChange: PropTypes.func.isRequired,
+  type: PropTypes.string,
+  name: PropTypes.string,
+  label: PropTypes.string,
+  value: PropTypes.string,
+  error: PropTypes.string,
 };
 
 export default TextField;
