@@ -1,16 +1,26 @@
 import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import TextField from "./TextField";
 import { validator } from "./utils/validator";
 
 const Card = () => {
   const [data, setData] = useState({
-    firstName: "",
-    lastName: "",
-    year: "",
-    portfolio: "",
+    firstName: localStorage.getItem("firstName") || "",
+    lastName: localStorage.getItem("lastName") || "",
+    yearOfBirth: localStorage.getItem("yearOfBirth") || "",
+    portfolio: localStorage.getItem("portfolio") || "",
   });
 
+  useEffect(() => {
+    localStorage.setItem("firstName", data.firstName);
+    localStorage.setItem("lastName", data.lastName);
+    localStorage.setItem("yearOfBirth", data.yearOfBirth);
+    localStorage.setItem("portfolio", data.portfolio);
+  }, [data]);
+
   const [errors, setErros] = useState({});
+  localStorage.setItem("data", JSON.stringify(data));
+  const history = useHistory();
 
   const handleChange = ({ target }) => {
     setData((prevState) => ({
@@ -30,7 +40,7 @@ const Card = () => {
         message: "Фамилия обязательно должно быть заполнено",
       },
     },
-    year: {
+    yearOfBirth: {
       isRequired: {
         message: "Год рождения должно быть заполнено",
       },
@@ -92,10 +102,10 @@ const Card = () => {
             <TextField
               label="Год рождения"
               type="text"
-              name="year"
-              value={data.year}
+              name="yearOfBirth"
+              value={data.yearOfBirth}
               onChange={handleChange}
-              error={errors.year}
+              error={errors.yearOfBirth}
             />
             <TextField
               label="Портфолио"
@@ -109,8 +119,9 @@ const Card = () => {
               type="submit"
               className="btn btn-primary"
               disabled={!isValid}
+              onClick={() => history.push("/")}
             >
-              Создать
+              {data.firstName ? "Обновить" : "Создать"}
             </button>
           </form>
         </div>

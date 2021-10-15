@@ -1,8 +1,13 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 
-const ListCard = () => {
+import DataStudent from "./DataStudent";
+
+const AddCard = () => {
   const history = useHistory();
+  const data = JSON.parse(localStorage.getItem("data"));
+  const isData = data?.firstName;
+
   return (
     <div className="container">
       <div className="row d-flex">
@@ -11,7 +16,9 @@ const ListCard = () => {
         </div>
       </div>
       <div className="row">
-        <div className="col-6 m-auto">нет данных</div>
+        <div className="col-6 m-auto">
+          {isData ? <DataStudent data={data} /> : "нет данных"}
+        </div>
       </div>
       <div className="row mt-3">
         <div className="col-6 m-auto">
@@ -20,7 +27,7 @@ const ListCard = () => {
             className="btn btn-primary"
             onClick={() => history.push("/card")}
           >
-            Добавить
+            {isData ? "Редактировать" : "Добавить"}
           </button>
         </div>
       </div>
@@ -28,4 +35,4 @@ const ListCard = () => {
   );
 };
 
-export default ListCard;
+export default AddCard;
